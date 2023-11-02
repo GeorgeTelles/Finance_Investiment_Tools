@@ -8,7 +8,6 @@ import os
 
 
 def extrair_dados():
-    login, password = open('G:/Meu Drive/2. Documentos/dock/Finance/credentials.txt').read().split()
     mt5.initialize()
 
     ativos = ativos_entry.get().split(',')
