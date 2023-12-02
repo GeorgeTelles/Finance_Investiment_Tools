@@ -1,0 +1,28 @@
+import pandas as pd
+import yfinance as yf
+import random
+
+# Carregar o CSV com os códigos das empresas
+df_empresas = pd.read_csv('acoes-listadas.csv', encoding='utf-8')
+
+# Adicionar ".SA" ao final de cada código
+df_empresas['Codigo'] = df_empresas['Codigo'] + '.SA'
+
+# Selecionar aleatoriamente 15 empresas
+empresas_selecionadas = random.sample(df_empresas['Codigo'].tolist(), 20)
+
+# Obter os dados históricos de cada empresa para os últimos 12 meses
+dados_historicos = yf.download(empresas_selecionadas, period='1y')['Adj Close']
+
+# Calcular a rentabilidade de cada empresa nos últimos 12 meses
+rentabilidade_por_empresa = (dados_historicos.pct_change() + 1).prod() - 1
+
+# Calcular a rentabilidade da carteira consolidada
+rentabilidade_carteira = rentabilidade_por_empresa.mean()
+
+# Mostrar os resultados em formato de porcentagem
+print("Rentabilidade por empresa nos últimos 12 meses:")
+print(rentabilidade_por_empresa * 100)
+
+print("\nRentabilidade da carteira nos últimos 12 meses:")
+print(rentabilidade_carteira * 100)
