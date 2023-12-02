@@ -15,7 +15,8 @@ empresas_selecionadas = random.sample(df_empresas['Codigo'].tolist(), 20)
 dados_historicos = yf.download(empresas_selecionadas, period='1y')['Adj Close']
 
 # Calcular a rentabilidade de cada empresa nos últimos 12 meses
-rentabilidade_por_empresa = (dados_historicos.pct_change() + 1).prod() - 1
+rentabilidade_por_empresa = (dados_historicos.pct_change(fill_method=None) + 1).prod() - 1
+
 
 # Calcular a rentabilidade da carteira consolidada
 rentabilidade_carteira = rentabilidade_por_empresa.mean()
