@@ -22,7 +22,7 @@ def extrair_dados():
 
     nomedoarquivo = os.path.join(os.path.expanduser("~"), "Desktop", f"{nome_do_arquivo}.xlsx")
 
-    timeframes = ["H1", "M30", "M15", "M10"]
+    timeframes = ["H1", "M30", "M15", "M5"]
 
     # Crie um arquivo Excel antes do loop de timeframes
     writer = pd.ExcelWriter(nomedoarquivo)
