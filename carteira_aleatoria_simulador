@@ -1,29 +1,48 @@
+import tkinter as tk
+from tkinter import scrolledtext
 import pandas as pd
 import yfinance as yf
 import random
 
-# Carregar o CSV com os códigos das empresas
-df_empresas = pd.read_csv('acoes-listadas.csv', encoding='utf-8')
+# Função para carregar dados e calcular rentabilidade
+def calcular_rentabilidade():
+    # Carregar o CSV com os códigos das empresas
+    df_empresas = pd.read_excel('G:\\Meu Drive\\3. Finanças e Investimentos\\Analises e Anotações\\Listas de ativos\\acoesfiltradas.xlsx')
 
-# Adicionar ".SA" ao final de cada código
-df_empresas['Codigo'] = df_empresas['Codigo'] + '.SA'
+    # Adicionar ".SA" ao final de cada código
+    df_empresas['Codigo'] = df_empresas['Codigo'] + '.SA'
 
-# Selecionar aleatoriamente 15 empresas
-empresas_selecionadas = random.sample(df_empresas['Codigo'].tolist(), 20)
+    # Selecionar aleatoriamente 15 empresas
+    empresas_selecionadas = random.sample(df_empresas['Codigo'].tolist(), 20)
 
-# Obter os dados históricos de cada empresa para os últimos 12 meses
-dados_historicos = yf.download(empresas_selecionadas, period='1y')['Adj Close']
+    # Obter os dados históricos de cada empresa para os últimos 12 meses
+    dados_historicos = yf.download(empresas_selecionadas, period='1y')['Adj Close']
 
-# Calcular a rentabilidade de cada empresa nos últimos 12 meses
-rentabilidade_por_empresa = (dados_historicos.pct_change(fill_method=None) + 1).prod() - 1
+    # Calcular a rentabilidade de cada empresa nos últimos 12 meses
+    rentabilidade_por_empresa = (dados_historicos.pct_change(fill_method=None) + 1).prod() - 1
 
+    # Calcular a rentabilidade da carteira consolidada
+    rentabilidade_carteira = rentabilidade_por_empresa.mean()
 
-# Calcular a rentabilidade da carteira consolidada
-rentabilidade_carteira = rentabilidade_por_empresa.mean()
+    # Atualizar o texto na caixa de texto
+    resultado_text.delete(1.0, tk.END)
+    resultado_text.insert(tk.END, "Rentabilidade por empresa nos últimos 12 meses:\n")
+    resultado_text.insert(tk.END, str(rentabilidade_por_empresa * 100) + "\n\n")
+    resultado_text.insert(tk.END, "Rentabilidade da carteira nos últimos 12 meses:\n")
+    resultado_text.insert(tk.END, str(rentabilidade_carteira * 100))
 
-# Mostrar os resultados em formato de porcentagem
-print("Rentabilidade por empresa nos últimos 12 meses:")
-print(rentabilidade_por_empresa * 100)
+# Criar janela principal
+janela = tk.Tk()
+janela.title("Análise de Rentabilidade")
+janela.geometry("450x550")
 
-print("\nRentabilidade da carteira nos últimos 12 meses:")
-print(rentabilidade_carteira * 100)
+# Botão para acionar o cálculo e exibir resultados
+calcular_button = tk.Button(janela, text="Gerar Carteira Aleatoria", command=calcular_rentabilidade)
+calcular_button.pack(pady=10)
+
+# Caixa de texto rolável para exibir resultados
+resultado_text = scrolledtext.ScrolledText(janela, width=50, height=30)
+resultado_text.pack(padx=10, pady=10)
+
+# Iniciar o loop principal da interface gráfica
+janela.mainloop()
