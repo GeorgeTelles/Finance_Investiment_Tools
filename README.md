@@ -1,4 +1,2 @@
-# Extrator_Intraday
+# Finance_Investiment_Tools
 
-
-Essa ferramenta extrai os dados de determinado ativo pelo MT5
