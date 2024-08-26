@@ -22,6 +22,8 @@ This repository is a collection of codes and tools designed to assist with finan
 - **`Random_Portfolio.ipynb`**: A Jupyter Notebook that allows you to experiment with creating random portfolios and evaluating their performance.
 
 
+
+_____________________________________________________________________________________________________________________________________
 Bem-vindo ao repositório **Finance Investment Tools**! 🎯
 
 Este repositório é uma coleção de códigos e ferramentas projetadas para auxiliar na gestão financeira e na análise de investimentos. Ele inclui scripts e notebooks que podem ajudar a otimizar suas decisões financeiras e melhorar seu acompanhamento de investimentos.
